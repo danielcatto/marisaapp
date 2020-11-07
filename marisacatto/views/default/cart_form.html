@@ -1,0 +1,39 @@
+{{extend 'base.html'}}
+{{block central}}
+
+
+{{ if not session.cliente:}}
+    {{ =form }}
+
+{{ else: }}
+{{=form_product}}
+Nome do cliente: {{ =session.cliente[0] }}, {{ =session.cliente[1] }} | <a href="{{=URL('default', 'delete_cliente')}}"> trocar cliente </a><br>
+Total da compra = {{ =session.total_geral }} 
+<table width=900px border="1">
+    <tr  bgcolor="silver">
+        <th>Código</th>
+        <th>Nome </th>
+        <th>Valor </th>
+        <th>Quantidade </thd>
+        <th>Subtotal </th>       
+    </tr>
+    {{if session.cart:}}
+    {{ for lista in range(len(cart)): }}
+    <tr>
+        <td>{{ =cart[lista][0] }} </td>
+        <td>{{ =cart[lista][1] }} </td>
+        <td>{{ =cart[lista][2] }}</td>
+        <td>{{ =cart[lista][3] }}</td>
+        <td>{{ =cart[lista][4] }}</td>
+        
+    {{ pass }}
+{{pass}}
+    </tr>
+</table>
+<br>
+<a href="{{=URL('default','grava_pedido')}}" class="btn btn-primary mx-2 px-5 mb-3 aos-init aos-animate">Finalizar</a>
+{{ pass }} 
+
+<Br>
+
+{{end}}

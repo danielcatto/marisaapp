@@ -1,0 +1,13 @@
+
+{{extend 'base.html'}}
+
+{{block central}}
+
+    {{ for pedido in range(len(pedidos)):}}
+ Pedido: {{ =pedidos[pedido]['id'] }} - Total a pagar
+    
+    {{ =pedidos[pedido]['forma_pagamento'] }}
+  {{ =pedidos[pedido]['data_pedido'] }}
+    {{pass}}
+
+{{end}}

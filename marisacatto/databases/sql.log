@@ -1,0 +1,123 @@
+timestamp: 2020-11-06T21:10:43.704748
+CREATE TABLE "auth_user"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "first_name" CHAR(128),
+    "last_name" CHAR(128),
+    "email" CHAR(512),
+    "password" CHAR(512),
+    "registration_key" CHAR(512),
+    "reset_password_key" CHAR(512),
+    "registration_id" CHAR(512)
+);
+success!
+timestamp: 2020-11-06T21:10:43.768825
+CREATE TABLE "auth_group"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "role" CHAR(512),
+    "description" TEXT
+);
+success!
+timestamp: 2020-11-06T21:10:43.859224
+CREATE TABLE "auth_membership"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "user_id" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
+    "group_id" INTEGER REFERENCES "auth_group" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2020-11-06T21:10:43.960474
+CREATE TABLE "auth_permission"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "group_id" INTEGER REFERENCES "auth_group" ("id") ON DELETE CASCADE  ,
+    "name" CHAR(512),
+    "table_name" CHAR(512),
+    "record_id" INTEGER
+);
+success!
+timestamp: 2020-11-06T21:10:44.028105
+CREATE TABLE "auth_event"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "time_stamp" TIMESTAMP,
+    "client_ip" CHAR(512),
+    "user_id" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
+    "origin" CHAR(512),
+    "description" TEXT
+);
+success!
+timestamp: 2020-11-06T21:10:44.171063
+CREATE TABLE "auth_cas"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "user_id" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
+    "created_on" TIMESTAMP,
+    "service" CHAR(512),
+    "ticket" CHAR(512),
+    "renew" CHAR(1)
+);
+success!
+timestamp: 2020-11-06T21:10:44.263365
+CREATE TABLE "pessoa"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "nome" CHAR(512),
+    "telefone" INTEGER
+);
+success!
+timestamp: 2020-11-06T21:10:44.371196
+CREATE TABLE "clientes"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "nome" CHAR(512),
+    "rg" INTEGER,
+    "cpf" INTEGER,
+    "logradouro" CHAR(512),
+    "numero" INTEGER,
+    "bairro" CHAR(512),
+    "cidade" CHAR(512),
+    "uf" CHAR(512),
+    "data_cadastro" TIMESTAMP,
+    "ativo" CHAR(1)
+);
+success!
+timestamp: 2020-11-06T21:10:44.484362
+CREATE TABLE "categorias"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "nome_categoria" CHAR(512)
+);
+success!
+timestamp: 2020-11-06T21:10:44.613256
+CREATE TABLE "produtos"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "nome" CHAR(512),
+    "valor" DOUBLE,
+    "quantidade" INTEGER,
+    "imagemdoproduto" CHAR(512),
+    "data_cadastro" TIMESTAMP,
+    "categoria" INTEGER REFERENCES "categorias" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2020-11-06T21:10:44.723114
+CREATE TABLE "itens_pedido"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "pedido_id" INTEGER,
+    "codigo_produto" INTEGER,
+    "quantidade" DOUBLE,
+    "valor" DOUBLE,
+    "sub_total" DOUBLE
+);
+success!
+timestamp: 2020-11-06T21:10:44.839634
+CREATE TABLE "saldo_pago"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "pedido" INTEGER,
+    "valor_total" INTEGER,
+    "valor_pado" DOUBLE
+);
+success!
+timestamp: 2020-11-06T21:10:44.956670
+CREATE TABLE "vendas"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "cliente_id" INTEGER REFERENCES "clientes" ("id") ON DELETE CASCADE  ,
+    "total_compra" DOUBLE,
+    "forma_pagamento" CHAR(512),
+    "status_do_pagamento" CHAR(1),
+    "saldo_pago" INTEGER REFERENCES "saldo_pago" ("id") ON DELETE CASCADE  ,
+    "data_pedido" TIMESTAMP
+);
+success!
